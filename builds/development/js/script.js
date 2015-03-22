@@ -77,7 +77,7 @@ $ = require('jquery');
 
 (fill = function(item) {
   return $('.tagline').append('#{item}');
-})('The most cretive minds in the Art');
+})('The most Cretive minds in the Art');
 
 $(function() {
   var Mustache = require('mustache');
