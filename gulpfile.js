@@ -12,10 +12,14 @@ var gulp 		= require('gulp'),
 	compass		= require('gulp-compass'),
 	browserify	= require('gulp-browserify'),
 	concat		= require('gulp-concat'),
+	minifycss	= require('gulp-minify-css'),
+	guglify		= require('gulp-uglify'),
+	gulpif 		= require('gulp-if'),
 	connect		= require('gulp-connect');
 
 var env, coffeeSources, jsSources, sassSources, staticSources, jsonSources, sassStyle, outputDir;
 var env = process.env.NODE_ENV || 'development';
+var prod = env === 'development' ? false : true;
 
 if(env === 'development') {
 	outputDir = 'builds/development/';
@@ -56,6 +60,7 @@ gulp.task('js', function() {
 	gulp.src(jsSources)
 		.pipe(concat('script.js'))
 		.pipe(browserify())
+		.pipe(gulpif(prod, guglify()))
 		.pipe(gulp.dest(outputDir + 'js'))
 		.pipe(connect.reload());
 });
@@ -71,6 +76,7 @@ gulp.task('compass', function() {
 			image: outputDir + 'images',
 			style: sassStyle
 		}).on('error', gutil.log))
+		.pipe(gulpif(prod, minifycss()))
 		.pipe(gulp.dest(outputDir + 'css'))
 		.pipe(connect.reload());
 });
