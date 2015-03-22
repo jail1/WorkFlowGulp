@@ -14,6 +14,7 @@ var gulp 		= require('gulp'),
 	concat		= require('gulp-concat'),
 	minifycss	= require('gulp-minify-css'),
 	minifyhtml  = require('gulp-minify-html'),
+	jsonminify  = require('gulp-jsonminify'),
 	guglify		= require('gulp-uglify'),
 	gulpif 		= require('gulp-if'),
 	connect		= require('gulp-connect');
@@ -98,7 +99,9 @@ gulp.task('static', function() {
 // ##################################################################################################################################
 
 gulp.task('json', function() {
-	gulp.src(jsonSources)
+	gulp.src('builds/development/js/*.json')
+		.pipe(gulpif(prod, jsonminify()))
+		.pipe(gulpif(prod, gulp.dest('builds/production/js/')))
 		.pipe(connect.reload());
 });
 
@@ -111,7 +114,7 @@ gulp.task('watch', function() {
 	gulp.watch(jsSources, ['js']);
 	gulp.watch('components/sass/*.scss', ['compass']);
 	gulp.watch('builds/development/*.html', ['static']);
-	gulp.watch(jsonSources, ['json']);
+	gulp.watch('builds/development/js/*.json', ['json']);
 });
 
 // ##################################################################################################################################
