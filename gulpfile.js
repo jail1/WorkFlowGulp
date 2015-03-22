@@ -13,6 +13,7 @@ var gulp 		= require('gulp'),
 	browserify	= require('gulp-browserify'),
 	concat		= require('gulp-concat'),
 	minifycss	= require('gulp-minify-css'),
+	minifyhtml  = require('gulp-minify-html'),
 	guglify		= require('gulp-uglify'),
 	gulpif 		= require('gulp-if'),
 	connect		= require('gulp-connect');
@@ -86,7 +87,9 @@ gulp.task('compass', function() {
 // ##################################################################################################################################
 
 gulp.task('static', function() {
-	gulp.src(staticSources)
+	gulp.src('builds/development/*.html')
+		.pipe(gulpif(prod, minifyhtml()))
+		.pipe(gulpif(prod, gulp.dest(outputDir)))
 		.pipe(connect.reload());
 });
 
@@ -107,7 +110,7 @@ gulp.task('watch', function() {
 	gulp.watch(coffeeSources, ['coffee']);
 	gulp.watch(jsSources, ['js']);
 	gulp.watch('components/sass/*.scss', ['compass']);
-	gulp.watch(staticSources, ['static']);
+	gulp.watch('builds/development/*.html', ['static']);
 	gulp.watch(jsonSources, ['json']);
 });
 
