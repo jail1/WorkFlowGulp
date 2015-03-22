@@ -23,7 +23,9 @@ var coffeeSources = ['components/coffee/tagline.coffee'],
 					 'components/scripts/pixgrid.js',
 				 	 'components/scripts/tagline.js',
 				 	 'components/scripts/template.js'],
- 	sassSources	  = ['components/sass/style.scss'];
+ 	sassSources	  = ['components/sass/style.scss'],
+ 	staticSources = ['builds/development/*.html', 'builds/development/*.php'],
+ 	jsonSources   = ['builds/development/js/*.json'];
 
 // ##################################################################################################################################
 // CoffeeScript Task
@@ -63,6 +65,24 @@ gulp.task('compass', function() {
 });
 
 // ##################################################################################################################################
+// Satic (~ HTML, PHP, etc ~) Task
+// ##################################################################################################################################
+
+gulp.task('static', function() {
+	gulp.src(staticSources)
+		.pipe(connect.reload());
+});
+
+// ##################################################################################################################################
+// Json Task
+// ##################################################################################################################################
+
+gulp.task('json', function() {
+	gulp.src(jsonSources)
+		.pipe(connect.reload());
+});
+
+// ##################################################################################################################################
 // Watch Task
 // ##################################################################################################################################
 
@@ -70,6 +90,8 @@ gulp.task('watch', function() {
 	gulp.watch(coffeeSources, ['coffee']);
 	gulp.watch(jsSources, ['js']);
 	gulp.watch('components/sass/*.scss', ['compass']);
+	gulp.watch(staticSources, ['static']);
+	gulp.watch(jsonSources, ['json']);
 });
 
 // ##################################################################################################################################
@@ -87,4 +109,4 @@ gulp.task('connect', function() {
 // Default Task
 // ##################################################################################################################################
 
-gulp.task('default', ['coffee', 'js', 'compass', 'connect', 'watch']); // Process all of this. Yell 'gulp' in console.
+gulp.task('default', ['static', 'json', 'coffee', 'js', 'compass', 'connect', 'watch']); // Process all of this. Yell 'gulp' in console.
