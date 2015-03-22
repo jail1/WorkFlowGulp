@@ -106,6 +106,16 @@ gulp.task('json', function() {
 });
 
 // ##################################################################################################################################
+// Images Task
+// ##################################################################################################################################
+
+gulp.task('images', function() {
+	gulp.src('builds/development/images/**/*.*')
+		.pipe(gulpif(prod, gulp.dest('builds/production/images/')))
+		.pipe(connect.reload());
+});
+
+// ##################################################################################################################################
 // Watch Task
 // ##################################################################################################################################
 
@@ -115,6 +125,7 @@ gulp.task('watch', function() {
 	gulp.watch('components/sass/*.scss', ['compass']);
 	gulp.watch('builds/development/*.html', ['static']);
 	gulp.watch('builds/development/js/*.json', ['json']);
+	gulp.watch('builds/development/images/**/*.*', ['images']);
 });
 
 // ##################################################################################################################################
@@ -132,4 +143,4 @@ gulp.task('connect', function() {
 // Default Task
 // ##################################################################################################################################
 
-gulp.task('default', ['static', 'json', 'coffee', 'js', 'compass', 'connect', 'watch']); // Process all of this. Yell 'gulp' in console.
+gulp.task('default', ['static', 'json', 'coffee', 'js', 'compass', 'images', 'connect', 'watch']); // Process all of this. Yell 'gulp' in console.
