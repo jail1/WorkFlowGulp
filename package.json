@@ -11,5 +11,10 @@
     "url": "?.git"
   },
   "author": "Iacob Silviu - Iulian",
-  "license": "Apache"
+  "license": "Apache",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-util": "^3.0.4"
+  }
 }
